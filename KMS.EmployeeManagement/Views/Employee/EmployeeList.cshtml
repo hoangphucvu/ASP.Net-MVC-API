@@ -1,0 +1,42 @@
+﻿@model IEnumerable<KMS.EmployeeManagement.Models.Employee>
+@{
+    ViewBag.Title = "List Employee";
+}
+<div id="pageContent">
+    <div class="panel panel-primary" id="employeeTable">
+        <div class="panel-heading">Employee List</div>
+        <form>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Gender</th>
+                        <th>Detail</th>
+                        <th>Update</th>
+                        <th><button type="button" id="btnDelete" class="btn btn-danger">Delete</button></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var employee in Model)
+            {
+                        <tr>
+                            <td>@employee.FirstName</td>
+                            <td>@employee.LastName</td>
+                            <td>
+                                @if (employee.Gender)
+                            {<p>Male</p> }
+                            else
+                            {<p>Female</p>}
+                        </td>
+                        <td><a class="btn btn-info detailsBtn" data-id="@employee.ID">Details</a></td>
+                        <td><button type="button" class="btn btn-danger btn-update" data-id="@employee.ID">Update</button></td>
+                        <th><input type="checkbox" class="form-control check-delete" value="@employee.ID" name="employeeID"/></th>
+                    </tr>
+                    }
+                </tbody>
+
+            </table>
+        </form>
+    </div>
+</div>
