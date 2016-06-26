@@ -16,13 +16,19 @@ textarea {
     max-width: 280px;
 }
 
-#employeeTable{
-    margin-top:2%;
-    text-align:center;
+#employeeTable {
+    margin-top: 2%;
+    text-align: center;
 }
-#employeeTable th{
-    text-align:center;
+
+    #employeeTable th {
+        text-align: center;
+    }
+
+#pageContent {
+    margin-top: 2%;
 }
-#pageContent{
-    margin-top:2%;
+
+#btnNew,#btnBack {
+    margin-bottom: 5%;
 }

@@ -25,7 +25,7 @@
             + dob + '</p><p> Gender: '
             + gender + '</p><p> Start date: '
             + startDate +
-        '</p></div> </div><br><button type="button" class="btn btn-primary" id="btnBack">Back</button>');
+        '</p></div> </div>');
     });
 });
 
@@ -52,10 +52,5 @@ $("#btnDelete").click(function () {
     else {
         return false;
     }
-
 });
 
-$("#btnBack").click(function () {
-    alert("123");
-    //$("#pageContent").load('@Url.Content("~/Employee/GetAll")');
-});

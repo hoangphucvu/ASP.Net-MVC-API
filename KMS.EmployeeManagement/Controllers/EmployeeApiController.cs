@@ -1,10 +1,6 @@
 ﻿using KMS.EmployeeManagement.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Web.Http;
-using System.Web;
 
 namespace KMS.EmployeeManagement.Controllers
 {
@@ -15,7 +11,7 @@ namespace KMS.EmployeeManagement.Controllers
         // GET api/<controller>/5
         public Employee Get(int id)
         {
-            return db.Employees.SingleOrDefault(em=>em.ID == id);
+            return db.Employees.SingleOrDefault(em => em.ID == id);
         }
 
         // POST api/<controller>
