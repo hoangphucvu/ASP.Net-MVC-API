@@ -25,7 +25,7 @@
             + dob + '</p><p> Gender: '
             + gender + '</p><p> Start date: '
             + startDate +
-        '</p></div> </div>');
+        '</p></div> </div><br><button type="button" class="btn btn-primary" id="btnBack">Back</button>');
     });
 });
 
@@ -39,7 +39,7 @@ $("#btnDelete").click(function () {
         $.ajax({
             url: '/api/EmployeeApi/' + id,
             type: "DELETE",
-            dataType: "json",
+            dataType: "json"
         })
         .error(function () {
             alert("Internal error please try again");
@@ -53,4 +53,9 @@ $("#btnDelete").click(function () {
         return false;
     }
 
+});
+
+$("#btnBack").click(function () {
+    alert("123");
+    //$("#pageContent").load('@Url.Content("~/Employee/GetAll")');
 });

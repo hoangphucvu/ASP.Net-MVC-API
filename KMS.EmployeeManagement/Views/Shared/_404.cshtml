@@ -1,0 +1,14 @@
+﻿
+@model System.String
+@{
+    ViewBag.Title = "404";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="span12">
+    <p class="container-404">
+        <img src="~/Content/img/404.jpg" width="100%"/>
+    </p>
+    <hr />
+        @Html.ActionLink("Back to index", "GetAll", null, new { @class = "btn btn-primary btn-block" })
+</section> 
