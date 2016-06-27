@@ -21,7 +21,7 @@
             </thead>
             <tbody>
                 @foreach (var employee in Model)
-            {
+                {
                     <tr>
                         <td>@employee.FirstName</td>
                         <td>@employee.LastName</td>
@@ -32,8 +32,8 @@
                             {<p>Female</p>}
                         </td>
                         <td><a class="btn btn-info detailsBtn" data-id="@employee.ID">Details</a></td>
-                        <td><button type="button" class="btn btn-danger btn-update" data-id="@employee.ID">Update</button></td>
-                        <th><input type="checkbox" class="form-control check-delete" value="@employee.ID" name="employeeID" /></th>
+                        <td><a href="/Employee/UpdateEmployee/@employee.ID"  class="btn btn-danger btn-update" data-id="@employee.ID">Update</a></td>
+                        <th><input type="checkbox" class="form-control" value="@employee.ID" name="employeeID" /></th>
                     </tr>
                 }
             </tbody>

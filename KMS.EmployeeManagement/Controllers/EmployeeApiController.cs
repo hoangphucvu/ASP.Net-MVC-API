@@ -1,5 +1,8 @@
 ﻿using KMS.EmployeeManagement.Models;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 
 namespace KMS.EmployeeManagement.Controllers
@@ -9,19 +12,43 @@ namespace KMS.EmployeeManagement.Controllers
         private EmployeeContext db = new EmployeeContext();
 
         // GET api/<controller>/5
-        public Employee Get(int id)
+        public IHttpActionResult Get(int id)
         {
-            return db.Employees.SingleOrDefault(em => em.ID == id);
+            var employee = db.Employees.Find(id);
+            if (employee != null)
+            {
+                return Ok(db.Employees.SingleOrDefault(em => em.ID == id));
+            }
+            return NotFound();
         }
 
+        [HttpPost]
         // POST api/<controller>
-        public void Post([FromBody]string value)
+        public HttpResponseMessage Post(Employee employee)
         {
+            if (employee != null && ModelState.IsValid)
+            {
+                db.Employees.Add(employee);
+                db.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            return Request.CreateResponse(HttpStatusCode.BadRequest);
         }
 
+        [HttpPut]
         // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
+        public HttpResponseMessage Put(int id, Employee employee)
         {
+            if(employee != null && ModelState.IsValid)
+            {
+                var specificEmployee = db.Employees.Find(id);
+                specificEmployee.StartDate =employee.StartDate;
+                specificEmployee.DOB = employee.DOB;
+                db.Entry(specificEmployee).State = EntityState.Modified;
+                db.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            return Request.CreateResponse(HttpStatusCode.BadRequest);
         }
 
         [HttpDelete]
