@@ -19,8 +19,8 @@
             gender = "Female";
         }
         $("#pageContent").html(
-            '<div class="panel panel-primary"><div class="panel-heading">'+
-            '<h3 class="panel-title">User Details</h3>'+
+            '<div class="panel panel-primary"><div class="panel-heading">' +
+            '<h3 class="panel-title">User Details</h3>' +
             '</div> <div class="panel-body"><p> Firstname: '
             + data.FirstName + '</p><p> Middle name: '
             + data.MiddleName + '</p><p> Lastname: '
@@ -36,7 +36,7 @@ $("#btnDelete").click(function () {
     var confirmMess = confirm('Are you sure ?');
     if (confirmMess) {
         var id = [];
-        $.each($("input[name='employeeID']:checked"),function () {
+        $.each($("input[name='employeeID']:checked"), function () {
             id.push($(this).val());
         });
 
@@ -63,35 +63,27 @@ $("#addNewEmployee").click(function () {
     $.ajax({
         url: '/api/EmployeeApi/',
         type: 'POST',
-        data: data,
-    })
-    .error(function() {
-        alert("Internal error please try again");
+        data: data
     })
     .success(function () {
         alert("Add successful");
         location.reload();
     });
-    
 });
+
 $("#updateEmployee").click(function () {
     var data = $("#updateEmployeeForm").serialize();
     var id = $("#employeeID").val();
     $.ajax({
         url: '/api/EmployeeApi/' + id,
         type: 'PUT',
-        data: data,
+        data: data
     })
-    .error(function () {
-        alert("Internal error please try again");
+    .error(function(data){
+        
     })
     .success(function () {
         alert("Update successful");
         location.reload();
     });
-
 });
-
-//$(document).ready(function () {
-//    $('.date').datepicker({ dateFormat: "dd/mm/yy" });
-//});

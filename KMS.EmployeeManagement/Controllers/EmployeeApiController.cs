@@ -1,9 +1,14 @@
-﻿using KMS.EmployeeManagement.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
+using KMS.EmployeeManagement.Models;
 
 namespace KMS.EmployeeManagement.Controllers
 {
@@ -11,48 +16,79 @@ namespace KMS.EmployeeManagement.Controllers
     {
         private EmployeeContext db = new EmployeeContext();
 
-        // GET api/<controller>/5
-        public IHttpActionResult Get(int id)
+        // GET: api/EmployeeApi
+        public IQueryable<Employee> GetEmployees()
         {
-            var employee = db.Employees.Find(id);
-            if (employee != null)
-            {
-                return Ok(db.Employees.SingleOrDefault(em => em.ID == id));
-            }
-            return NotFound();
+            return db.Employees;
         }
 
-        [HttpPost]
-        // POST api/<controller>
-        public HttpResponseMessage Post(Employee employee)
+        // GET: api/EmployeeApi/5
+        [ResponseType(typeof(Employee))]
+        public IHttpActionResult GetEmployee(int id)
         {
-            if (employee != null && ModelState.IsValid)
+            Employee employee = db.Employees.Find(id);
+            if (employee == null)
             {
-                db.Employees.Add(employee);
-                db.SaveChanges();
-                return Request.CreateResponse(HttpStatusCode.OK);
+                return NotFound();
             }
-            return Request.CreateResponse(HttpStatusCode.BadRequest);
+
+            return Ok(employee);
         }
 
+        // PUT: api/EmployeeApi/5
         [HttpPut]
-        // PUT api/<controller>/5
-        public HttpResponseMessage Put(int id, Employee employee)
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutEmployee(int id, Employee employee)
         {
-            if(employee != null && ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var specificEmployee = db.Employees.Find(id);
-                specificEmployee.StartDate =employee.StartDate;
-                specificEmployee.DOB = employee.DOB;
-                db.Entry(specificEmployee).State = EntityState.Modified;
-                db.SaveChanges();
-                return Request.CreateResponse(HttpStatusCode.OK);
+                return BadRequest(ModelState);
             }
-            return Request.CreateResponse(HttpStatusCode.BadRequest);
+
+            if (id != employee.ID)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(employee).State = EntityState.Modified;
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!EmployeeExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
+        // POST: api/EmployeeApi
+        [HttpPost]
+        [ResponseType(typeof(Employee))]
+        public IHttpActionResult PostEmployee(Employee employee)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.ToString());
+            }
+
+            db.Employees.Add(employee);
+            db.SaveChanges();
+
+            return CreatedAtRoute("DefaultApi", new { id = employee.ID }, employee);
+        }
+
+        // DELETE: api/EmployeeApi/5
         [HttpDelete]
-        // DELETE api/<controller>/5
         public void Delete(string id)
         {
             if (!string.IsNullOrEmpty(id))
@@ -65,6 +101,20 @@ namespace KMS.EmployeeManagement.Controllers
                 }
                 db.SaveChanges();
             }
+        }
+
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
+
+        private bool EmployeeExists(int id)
+        {
+            return db.Employees.Count(e => e.ID == id) > 0;
         }
     }
 }

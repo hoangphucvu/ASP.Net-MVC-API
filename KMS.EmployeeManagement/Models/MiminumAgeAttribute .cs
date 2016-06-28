@@ -1,20 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace KMS.EmployeeManagement.Models
 {
-    public class MiminumAgeAttribute: ValidationAttribute
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    public class MiminumAgeAttribute : ValidationAttribute
     {
+      
+        private readonly string dateOfBirthProperty;
+        private readonly int miniumAge;
+
+        public MiminumAgeAttribute(string dobPropertyName, int minimumAge)
+        {
+            if (string.IsNullOrEmpty(dobPropertyName))
+            {
+                throw new ArgumentNullException("Dob is not allow to null");
+            }
+            dateOfBirthProperty = dobPropertyName;
+            miniumAge = minimumAge;
+            
+        }
+
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            Employee employee = new Employee();
-            int minAge = 22;
-            if ((DateTime.Parse(value.ToString()).Year - employee.DOB.Year) < minAge)
+            DateTime startDate = Convert.ToDateTime(value);
+
+            var dobPropertyName = validationContext.ObjectInstance.GetType().GetProperty(dateOfBirthProperty);
+            var dobPropertyValue = dobPropertyName.GetValue(validationContext.ObjectInstance, null);
+            DateTime dateOfBirth = Convert.ToDateTime(dobPropertyValue);
+            int age = startDate.Year - dateOfBirth.Year;
+            if (age < miniumAge)
             {
-                return new ValidationResult("You must be 22 year old or older");
+                return new ValidationResult(FormatErrorMessage(validationContext.DisplayName));
             }
             return ValidationResult.Success;
         }

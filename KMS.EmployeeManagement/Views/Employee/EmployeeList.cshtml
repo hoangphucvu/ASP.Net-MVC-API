@@ -4,6 +4,7 @@
 }
 <div id="btnBack">
     @Html.ActionLink("New Employee", "NewEmployee", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Create Error", "CreateError", "Error", null, new { @class = "btn btn-danger" })
 </div>
 <div class="panel panel-primary" id="employeeTable">
     <div class="panel-heading">Employee List</div>
@@ -32,7 +33,7 @@
                             {<p>Female</p>}
                         </td>
                         <td><a class="btn btn-info detailsBtn" data-id="@employee.ID">Details</a></td>
-                        <td><a href="/Employee/UpdateEmployee/@employee.ID"  class="btn btn-danger btn-update" data-id="@employee.ID">Update</a></td>
+                        <td><a href="/Employee/UpdateEmployee/@employee.ID" class="btn btn-danger btn-update" data-id="@employee.ID">Update</a></td>
                         <th><input type="checkbox" class="form-control" value="@employee.ID" name="employeeID" /></th>
                     </tr>
                 }

@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <div class="col-lg-8 col-lg-offset-2 text-center">
+        <div class="logo">
+            <h1>Error</h1>
+        </div>
+        <p class="lead text-muted">Oops, an error has occurred,Please try again later</p>
+        <div class="clearfix"></div>
+        <br>
+        <div class="col-lg-6 col-lg-offset-3">
+            <div class="btn-group btn-group-justified">
+               @Html.ActionLink("Back to index", "GetAll", "Employee", null, new { @class = "btn btn-primary btn-block" })
+            </div>
+        </div>
+    </div>
+</div>

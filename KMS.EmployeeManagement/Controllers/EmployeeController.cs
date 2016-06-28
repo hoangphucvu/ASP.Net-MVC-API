@@ -17,6 +17,7 @@ namespace KMS.EmployeeManagement.Controllers
             ViewBag.Title = "Employee List";
             return View("EmployeeList", employee);
         }
+
         /// <summary>
         /// Return view to add new employee
         /// </summary>
