@@ -5,11 +5,6 @@ namespace KMS.EmployeeManagement.Controllers
 {
     public class ErrorController : Controller
     {
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         /// <summary>
         /// Create Error associate with exception handler
         /// </summary>
@@ -26,6 +21,5 @@ namespace KMS.EmployeeManagement.Controllers
         {
             return View("~/Views/Shared/_404.cshtml");
         }
-
     }
 }

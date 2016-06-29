@@ -1,28 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using KMS.EmployeeManagement.Models;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
-using KMS.EmployeeManagement.Models;
 
-namespace KMS.EmployeeManagement.Controllers
+namespace KMS.EmployeeManagement.Controllers.API_Controller
 {
-    public class EmployeeApiController : ApiController
+    public class EmployeeController : ApiController
     {
         private EmployeeContext db = new EmployeeContext();
 
-        // GET: api/EmployeeApi
-        public IQueryable<Employee> GetEmployees()
-        {
-            return db.Employees;
-        }
-
-        // GET: api/EmployeeApi/5
+        /// <summary>
+        /// Get single employee
+        /// </summary>
+        /// <param name="id">Employee ID</param>
+        /// <returns></returns>
+        // GET: api/Employee/5
         [ResponseType(typeof(Employee))]
         public IHttpActionResult GetEmployee(int id)
         {
@@ -35,8 +30,13 @@ namespace KMS.EmployeeManagement.Controllers
             return Ok(employee);
         }
 
-        // PUT: api/EmployeeApi/5
-        [HttpPut]
+        // PUT: api/Employee/5
+        /// <summary>
+        /// Update existing employee
+        /// </summary>
+        /// <param name="id">Employee ID</param>
+        /// <param name="employee">Employee Entities</param>
+        /// <returns></returns>
         [ResponseType(typeof(void))]
         public IHttpActionResult PutEmployee(int id, Employee employee)
         {
@@ -68,17 +68,21 @@ namespace KMS.EmployeeManagement.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok();
         }
 
-        // POST: api/EmployeeApi
-        [HttpPost]
+        /// <summary>
+        /// Update employee
+        /// </summary>
+        /// <param name="employee">Employee entites params</param>
+        /// <returns></returns>
+        // POST: api/Employee
         [ResponseType(typeof(Employee))]
         public IHttpActionResult PostEmployee(Employee employee)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.ToString());
+                return BadRequest(ModelState);
             }
 
             db.Employees.Add(employee);
@@ -87,8 +91,11 @@ namespace KMS.EmployeeManagement.Controllers
             return CreatedAtRoute("DefaultApi", new { id = employee.ID }, employee);
         }
 
-        // DELETE: api/EmployeeApi/5
-        [HttpDelete]
+        // DELETE: api/Employee/5
+        /// <summary>
+        /// Delete multiple employee
+        /// </summary>
+        /// <param name="id">Employee ID string</param>
         public void Delete(string id)
         {
             if (!string.IsNullOrEmpty(id))
@@ -103,14 +110,14 @@ namespace KMS.EmployeeManagement.Controllers
             }
         }
 
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
         private bool EmployeeExists(int id)
         {

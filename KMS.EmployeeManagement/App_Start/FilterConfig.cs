@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
+using KMS.EmployeeManagement.App_Start;
 
-namespace KMS.EmployeeManagement.App_Start
+namespace KMS.EmployeeManagement
 {
     public class FilterConfig
     {

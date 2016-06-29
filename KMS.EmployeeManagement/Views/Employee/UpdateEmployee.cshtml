@@ -1,6 +1,5 @@
 ﻿@model KMS.EmployeeManagement.Models.Employee
 @{
-    ViewBag.Title = "NewEmployee";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="row">
@@ -9,7 +8,7 @@
     </div>
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title">Add new employee</h3>
+            <h3 class="panel-title">Update employee</h3>
         </div>
         <div class="panel-body col-md-12">
             <form id="updateEmployeeForm" method="post">
@@ -53,19 +52,19 @@
                         @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger pull-right", @style = "margin-top:2%" })
                     </div>
                 </div>
-
                 <div class="col-md-12 input-group" id="btnUpdate">
-                    <button type="submit" class="btn btn-primary btn-block" id="updateEmployee">Update</button>
+                    <button type="button" class="btn btn-primary btn-block" id="updateEmployee">Update</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 @section script{
-<script>
+    <script>
         $(document).ready(function () {
-            var employeeID=$("#employeeID").val();
-            $.get('/api/EmployeeAPI/' + employeeID, function (data) {
+            $('#updateEmployeeForm').valid();
+            var employeeID = $("#employeeID").val();
+            $.get('/api/Employee/' + employeeID, function (data) {
                 $("#dob").val(data.DOBFormat);
                 $("#startDate").val(data.StartDateFormat);
             });

@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Web;
 
 namespace KMS.EmployeeManagement.Models
 {
@@ -50,7 +53,7 @@ namespace KMS.EmployeeManagement.Models
         /// Employee Start Working date(required)
         /// </summary>
         [Required(ErrorMessage = "Start date is required")]
-        [MiminumAge("DOB", 22,ErrorMessage ="You must be 22 year old or older")]
+        [MiminumAge(ErrorMessage = "Employee must be 22 year old or more")]
         [Display(Name = "Start Date: ")]
         [Column(TypeName = "Date")]
         public DateTime StartDate { get; set; }

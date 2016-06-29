@@ -52,9 +52,16 @@
                     </div>
                 </div>
                 <div class="col-md-12 input-group" id="btnNew">
-                    <button type="submit" class="btn btn-primary btn-block" id="addNewEmployee">Add</button>
+                    <button type="button" class="btn btn-primary btn-block" id="addNewEmployee"> Add </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+@section script{
+    <script type="text/javascript">
+        $(function () {
+            $('#addNewEmployeeForm').valid();
+        })
+    </script>
+}

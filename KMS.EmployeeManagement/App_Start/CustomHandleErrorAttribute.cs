@@ -9,7 +9,7 @@ namespace KMS.EmployeeManagement.App_Start
 {
     public class CustomHandleErrorAttribute : HandleErrorAttribute
     {
-    	private readonly ILog logger;
+        private readonly ILog logger;
 
         public CustomHandleErrorAttribute()
         {
@@ -18,57 +18,55 @@ namespace KMS.EmployeeManagement.App_Start
 
         public override void OnException(ExceptionContext filterContext)
         {
-            if(filterContext.ExceptionHandled || !filterContext.HttpContext.IsCustomErrorEnabled)
+            if (filterContext.ExceptionHandled || !filterContext.HttpContext.IsCustomErrorEnabled)
             {
-            	return;
+                return;
             }
 
-            if(new HttpException(null,filterContext.Exception).GetHttpCode()!=500)
+            if (new HttpException(null, filterContext.Exception).GetHttpCode() != 500)
             {
-            	return;
+                return;
             }
 
-            if(!ExceptionType.IsInstanceOfType(filterContext.Exception))
+            if (!ExceptionType.IsInstanceOfType(filterContext.Exception))
             {
-            	return;
+                return;
             }
 
             // if the request is AJAX return JSON else view.
-            if(filterContext.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            if (filterContext.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             {
-            	filterContext.Result = new JsonResult
-            	{
-            		JsonRequestBehavior = JsonRequestBehavior.AllowGet,
-            		Data = new 
-            		{
-            			error = true,
-            			message = filterContext.Exception.Message
-					}
-            	};
+                filterContext.Result = new JsonResult
+                {
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                    Data = new
+                    {
+                        error = true,
+                        message = filterContext.Exception.Message
+                    }
+                };
             }
             else
             {
-            	var controllerName = (string)filterContext.RouteData.Values["controller"];
-            	var actionName = (string)filterContext.RouteData.Values["action"];
-            	var model = new HandleErrorInfo(filterContext.Exception,controllerName,actionName);
+                var controllerName = (string)filterContext.RouteData.Values["controller"];
+                var actionName = (string)filterContext.RouteData.Values["action"];
+                var model = new HandleErrorInfo(filterContext.Exception, controllerName, actionName);
 
-            	filterContext.Result = new ViewResult 
-            	{
-            		ViewName = View,
-            		MasterName = Master,
-            		ViewData = new ViewDataDictionary<HandleErrorInfo>(model),
+                filterContext.Result = new ViewResult
+                {
+                    ViewName = View,
+                    MasterName = Master,
+                    ViewData = new ViewDataDictionary<HandleErrorInfo>(model),
                     TempData = filterContext.Controller.TempData
-            	};
+                };
             }
 
             // log the error using log4net.
-			logger.Error(filterContext.Exception.Message, filterContext.Exception);
+            logger.Error(filterContext.Exception.Message, filterContext.Exception);
 
-			filterContext.ExceptionHandled = true;
-			filterContext.HttpContext.Response.Clear();
-			filterContext.HttpContext.Response.StatusCode = 500;
+            filterContext.ExceptionHandled = true;
+            filterContext.HttpContext.Response.Clear();
             filterContext.HttpContext.Response.TrySkipIisCustomErrors = true;
         }
     }
-
 }

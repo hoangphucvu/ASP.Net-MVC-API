@@ -1,7 +1,7 @@
 ﻿$(".detailsBtn").click(function () {
     var id = $(this).data('id');
     $.ajax({
-        url: '/api/EmployeeApi/' + id,
+        url: '/api/Employee/' + id,
         type: 'GET',
         data: { id: id }
     })
@@ -41,7 +41,7 @@ $("#btnDelete").click(function () {
         });
 
         $.ajax({
-            url: '/api/EmployeeApi/' + id,
+            url: '/api/Employee/' + id,
             type: "DELETE",
             dataType: "json"
         })
@@ -61,9 +61,18 @@ $("#btnDelete").click(function () {
 $("#addNewEmployee").click(function () {
     var data = $("#addNewEmployeeForm").serialize();
     $.ajax({
-        url: '/api/EmployeeApi/',
+        url: '/api/Employee/',
         type: 'POST',
         data: data
+    })
+    .error(function (data) {
+        var validationResult = $.parseJSON(data.responseText);
+        var errors = {};
+        for (var key in validationResult.ModelState) {
+            errors[key.replace('employee.', '')] = validationResult.ModelState[key][0];
+        }
+        var validator = $('#addNewEmployeeForm').validate();
+        validator.showErrors(errors);
     })
     .success(function () {
         alert("Add successful");
@@ -75,12 +84,18 @@ $("#updateEmployee").click(function () {
     var data = $("#updateEmployeeForm").serialize();
     var id = $("#employeeID").val();
     $.ajax({
-        url: '/api/EmployeeApi/' + id,
+        url: '/api/Employee/' + id,
         type: 'PUT',
         data: data
     })
-    .error(function(data){
-        
+    .error(function (data) {
+        var validationResult = $.parseJSON(data.responseText);
+        var errors = {};
+        for (var key in validationResult.ModelState) {
+            errors[key.replace('employee.', '')] = validationResult.ModelState[key][0];
+        }
+        var validator = $('#updateEmployeeForm').validate();
+        validator.showErrors(errors);
     })
     .success(function () {
         alert("Update successful");
