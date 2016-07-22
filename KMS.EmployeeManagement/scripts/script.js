@@ -1,38 +1,4 @@
-﻿$(".detailsBtn").click(function () {
-    var id = $(this).data('id');
-    $.ajax({
-        url: '/api/Employee/' + id,
-        type: 'GET',
-        data: { id: id }
-    })
-    .error(function () {
-        alert("Internal error,please try again");
-    })
-    .success(function (data) {
-        var gender;
-        var dob = data.BirthDayShort;
-        var startDate = data.StartDateShort;
-        if (data.Gender) {
-            gender = "Male";
-        }
-        else {
-            gender = "Female";
-        }
-        $("#pageContent").html(
-            '<div class="panel panel-primary"><div class="panel-heading">' +
-            '<h3 class="panel-title">User Details</h3>' +
-            '</div> <div class="panel-body"><p> Firstname: '
-            + data.FirstName + '</p><p> Middle name: '
-            + data.MiddleName + '</p><p> Lastname: '
-            + data.LastName + '</p><p> Date of birth: '
-            + dob + '</p><p> Gender: '
-            + gender + '</p><p> Start date: '
-            + startDate +
-            '</p></div> </div>');
-    });
-});
-
-$("#btnDelete").click(function () {
+﻿$("#btnDelete").click(function () {
     var confirmMess = confirm('Are you sure ?');
     if (confirmMess) {
         var id = [];
@@ -66,7 +32,9 @@ $("#addNewEmployee").click(function () {
         data: data
     })
     .error(function (data) {
+        console.log(data);
         var validationResult = $.parseJSON(data.responseText);
+        console.log(validationResult);
         var errors = {};
         for (var key in validationResult.ModelState) {
             errors[key.replace('employee.', '')] = validationResult.ModelState[key][0];
@@ -89,6 +57,8 @@ $("#updateEmployee").click(function () {
         data: data
     })
     .error(function (data) {
+        console.log(data);
+        alert('Please check your input again');
         var validationResult = $.parseJSON(data.responseText);
         var errors = {};
         for (var key in validationResult.ModelState) {

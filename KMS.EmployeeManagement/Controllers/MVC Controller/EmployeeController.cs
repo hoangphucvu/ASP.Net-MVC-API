@@ -28,6 +28,20 @@ namespace KMS.EmployeeManagement.Controllers
         }
 
         /// <summary>
+        /// Return all employee
+        /// </summary>
+        public ViewResult EmployeeDetail(int id)
+        {
+            var employee = db.Employees.Find(id);
+            if (employee != null)
+            {
+                ViewBag.Title = "Employee detail";
+                return View(employee);
+            }
+            return View("EmployeeList", employee);
+        }
+
+        /// <summary>
         /// return view to update specific employee
         /// </summary>
         /// <param name="id">Employee ID</param>

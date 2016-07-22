@@ -233,6 +233,7 @@
     <Content Include="Views\Employee\EmployeeList.cshtml" />
     <Content Include="Views\Employee\NewEmployee.cshtml" />
     <Content Include="Views\Employee\UpdateEmployee.cshtml" />
+    <Content Include="Views\Employee\EmployeeDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201606290713404_InitialCreate.resx">

@@ -1,0 +1,20 @@
+﻿@model KMS.EmployeeManagement.Models.Employee
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div id="btnBack">
+        @Html.ActionLink("Go Back", "GetAll", null, new { @class = "btn btn-primary" })
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Employee Detail</h3>
+        </div>
+        <div class="panel-body col-md-12">
+            First name : @Model.FirstName<br />
+            Last name : @Model.LastName<br />
+            Birth day : @Model.BirthDayShort<br />
+            Start working day : @Model.StartDateShort
+        </div>
+    </div>
+</div>
